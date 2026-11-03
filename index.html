@@ -296,7 +296,7 @@ gallery:['Pojistný podvod je doložen účetními i provozními záznamy galeri
 train:['Nesrovnalosti v soupisech spojů a refundacích byly předány k dalšímu stíhání.','Zmizení bylo objasněno jen částečně a finanční stopa zůstává otevřená.','Chybná teorie přerušila sledování manipulací v dopravním systému.'],
 clinic:['Manipulace laboratorních výsledků byla doložena a nevinná lékařka očištěna.','Závadné výsledky byly odhaleny, ale pokyn vedení nebyl plně prokázán.','Unáhlené obvinění lékařky zakrylo odpovědnost vedení laboratoře.']
 };
-let lost=Object.values(st.storyChoices||{}).filter(x=>x===1).length;let idx=choice==='prove'&&!poor&&lost<=1?0:choice==='close'||choice==='prove'?1:2;
+let lost=Object.values(st.storyChoices||{}).filter(x=>x===1).length;let idx=choice==='prove'&&!poor&&lost===0?0:choice==='close'||choice==='prove'?1:2;
 let titles=['ÚPLNÉ OBJASNĚNÍ','ČÁSTEČNÉ OBJASNĚNÍ','CHYBNÝ ZÁVĚR'];
 let report='<div class="card"><div class="eyebrow">ZÁVĚREČNÉ ROZHODNUTÍ</div><h2>Jak uzavřeš spis?</h2><p>Dokončil jsi '+verified+'/'+c.chapters.length+' kapitol. Nezajištěné klíčové podklady: '+Object.values(st.storyChoices||{}).filter(x=>x===1).length+' · Chyby: '+st.mistakes+' · Důvěra svědků: '+st.reputation+'/5.</p><p>Tvá volba ovlivní konečný výsledek. Při poškozené důvěře nebo více procesních chybách nemusí obvinění obstát.</p>'+btn('Předat kompletní důkazy k obvinění',"caseFinalDecision('prove')",'gold full')+btn('Uzavřít pouze prokázanou část',"caseFinalDecision('close')",'full')+btn('Obvinit alternativního podezřelého',"caseFinalDecision('wrong')",'full')+'</div>';
 if(!choice)return report;
