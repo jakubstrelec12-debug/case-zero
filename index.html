@@ -134,7 +134,8 @@ let EXTRA={};try{EXTRA=JSON.parse(localStorage.getItem(EXTRA_KEY)||'{}')||{}}cat
 let ACTIVE_EXTRA=null;
 function extraState(id){let v=EXTRA[id];if(!v||typeof v!=='object')v=EXTRA[id]={step:0,answers:{},notes:'',mistakes:0,finished:false};v.answers ||= {};v.step=Math.max(0,Math.min(Number(v.step)||0,EXTRA_CASES.find(c=>c.id===id).chapters.length));return v}
 function saveExtra(){localStorage.setItem(EXTRA_KEY,JSON.stringify(EXTRA))}
-function selectCase(id){if(id==='library'){showLibrary();return}if(id==='lake'){ACTIVE_EXTRA=null;go('home');return}if(!EXTRA_CASES.some(c=>c.id===id))return;ACTIVE_EXTRA=id;render()}
+function selectCase(id){try{if(id==='library'){showLibrary();return}if(id==='lake'){ACTIVE_EXTRA=null;S.tab='home';render();return}if(!EXTRA_CASES.some(c=>c.id===id))return;ACTIVE_EXTRA=id;render()}catch(e){console.error('case selection',id,e);let target=document.getElementById('app');if(target)target.innerHTML='<div class="card"><h2>Chyba otevření spisu '+esc(id)+'</h2><p>'+esc(String(e.message||e))+'</p><button class="btn full" onclick="repairCase(\''+id+'\')">Opravit tento spis a otevřít</button><button class="btn full" onclick="showLibrary()">Zpět do knihovny</button></div>'}} 
+function repairCase(id){let c=EXTRA_CASES.find(x=>x.id===id);if(!c)return;let st=extraState(id);st.step=Math.min(Math.max(0,st.step),c.chapters.length);st.detour=null;st.branches ||= {};st.alternative ||= {};st.fieldwork ||= {};st.answers ||= {};st.caseLog ||= [];saveExtra();ACTIVE_EXTRA=id;render()}
 
 const DETOURS={
 hotel:[
